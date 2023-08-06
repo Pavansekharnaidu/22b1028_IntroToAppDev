@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "680376519859",
+    "project_id": "sahil-a4b2e",
+    "storage_bucket": "sahil-a4b2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680376519859:android:c02e219b780bcf8b38b4c6",
+        "android_client_info": {
+          "package_name": "com.example.bittu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680376519859-psesvsi3rrj6fqlqhmbu26e8u7h02dia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCikxd0689YBtbbx5K9C8x-bbyXhjBPRPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680376519859-psesvsi3rrj6fqlqhmbu26e8u7h02dia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
