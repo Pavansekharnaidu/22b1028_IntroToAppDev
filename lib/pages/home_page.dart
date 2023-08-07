@@ -21,8 +21,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
     'Other',
   ];
 
-  Map<String, int> items = {};
-  int total = 0;
+  Map<String, double> items = {};
+  double total = 0.0;
 
   double getTotalAmount() {
     double totalAmount = 0.0;
@@ -38,6 +38,9 @@ class _ItemListWidgetState extends State<ItemListWidget> {
     setState(() {
       expenses.add('${expense} (${category}) - ${money.toStringAsFixed(2)}');
     });
+
+    // Save the expense to Firestore
+    saveExpenseToFirestore(expense, category, money);
   }
 
   void removeExpense(String expense) {
@@ -52,21 +55,43 @@ class _ItemListWidgetState extends State<ItemListWidget> {
       FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
-          .collection('items')
+          .collection('expenses')
           .get()
           .then((querySnapshot) {
         setState(() {
           items = {};
-          total = 0;
+          total = 0.0;
           querySnapshot.docs.forEach((doc) {
-            String name = doc['name'];
-            int price = doc['price'];
-            items[name] = price;
-            total = total + price;
+            String name = doc['expense'];
+            String category = doc['category'];
+            double money = doc['amount'].toDouble();
+            items[name] = money;
+            total = total + money;
+            expenses.add('$name ($category) - ${money.toStringAsFixed(2)}');
           });
         });
       }).catchError((error) {
         print("Error fetching data: $error");
+      });
+    }
+  }
+
+  void saveExpenseToFirestore(String expense, String category, double money) async {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('expenses')
+          .add({
+        'expense': expense,
+        'category': category,
+        'amount': money,
+        'timestamp': FieldValue.serverTimestamp(),
+      }).then((_) {
+        print('Expense saved to Firestore successfully!');
+      }).catchError((error) {
+        print("Error saving expense to Firestore: $error");
       });
     }
   }
